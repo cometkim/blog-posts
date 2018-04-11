@@ -15,7 +15,7 @@ references:
 # 바벨이란?
 바벨은 자바스크립트 표준인 ECMAScript(이하 ES)의 최신 문법으로 작성된 코드를 실행할 수 있는 이전 버전 문법으로 변환해주는 트랜스파일러이다. (core-js 등의 주요 폴리필도 포함하고 있다.)
 
-자바스크립트는 [ECMAScript 표준과, TC39 위원회](http://ahnheejong.name/articles/ecmascript-tc39/), 자바스크립트 커뮤니티를 통해 빠르게 발전해오고 있지만 브라우저들과 Node.js가 지원하는 자바스크립트는 이를 완전히 따라잡지 못하고 있다. 특히 구버전의 IE를 지원하거나 해야되는 상황도 많기 때문에 순수히 ES를 사용해 개발하는 것은 그림의 떡같은 상황이다.
+자바스크립트는 [ECMAScript 표준과, TC39 위원회](http://ahnheejong.name/articles/ecmascript-tc39/), 자바스크립트 커뮤니티를 통해 빠르게 발전해오고 있지만 브라우저들과 노드가 지원하는 자바스크립트는 이를 완전히 따라잡지 못하고 있다. 특히 구버전의 IE를 지원하거나 해야되는 상황도 많기 때문에 순수히 ES를 사용해 개발하는 것은 그림의 떡같은 상황이다.
 
 > [ES 호환성 테이블](http://kangax.github.io/compat-table)에서 지원현황을 확인할 수 있다.
 
@@ -29,7 +29,7 @@ references:
 먼저 Yarn을 이용해 AwesomeProject라는 이름으로 프로젝트를 생성하고, 바벨을 사용하기 위한 필수 패키지를 설치한다.
 
 ```sh
-# Yarn으로 Node 프로젝트 생성
+# Yarn으로 Node.js 프로젝트 생성
 mkdir AwesomeProject
 cd AwesomeProject
 yarn init -y
@@ -105,8 +105,123 @@ main().catch(console.error);
 
 이렇게 생성된 코드는 노드 버전 4에서 실행하더라도 의도한대로 잘 동작한다. (정확히는 유지보수되고 있는 노드 버전에 대한 동작을 보장한다. 버전 5는 LTS버전이 아니라서 이미 EoL이 지났기 때문에 공식적으로 지원하진 않는다.)
 
+# 플러그인과 프리셋
+
+잠깐, 위 예제에 치명적인 결함이 있는 것 같다. 
+
+내 노드 버전은 무려 9.11이라 `import`만 `require`로 바꿔주면 그냥 돌아갈텐데.. 모듈 문법 하나때문에 이렇게 큰 코드를 생성해서 실행해야만 하는가?
+
+바벨은 각 문법별 트랜스폼을 각각 독립적인 **플러그인(Plugin)**으로 제공하며, 이 플러그인들을 한꺼번에 적용할 수 있도록 모아놓은 것을 **프리셋(Preset)**이라 한다. 
+
+이전에 자주 쓰이던 프리셋으로는 `babel-preset-es2015`(년도별 표준 프리셋), `babel-preset-stage-0`(스테이지 넘버별 프리셋) 등이 있다. 이 프리셋들은 이름대로 어떤 기준에 따라 플러그인을 모아놓고 한번에 적용하기 위한 용도로 많이 사용됐지만, 실제 실행환경을 고려하지 못해 종종 불필요하게 너무 많은 트랜스폼이 포함되는 문제가 있었다. 그렇다고 사용할 플러그인만 일일히 추가하기엔 설정이 매우 귀찮다.
+
+이런 문제를 해결하기 위해 등장한 것이 **Env 프리셋**이다. Env 프리셋의 등장 이 후 이전에 자주 사용되던 년도별, 스테이지별 프리셋들은 사용이 권장되지 않는다.
+
 # Env 프리셋 사용하기
 
-잠깐, 위 예제에 치명적인 문제가 있다.
+Env 프리셋은 기본적으로 stage 3 이상 쯤 되는 문법의 플러그인들을 포함하고 있다. 자세한 목록을 확인해보자.
+
+```sh
+$ yarn list --pattern @babel/plugin --depth 1
+yarn list v1.5.1
+├─ @babel/plugin-proposal-async-generator-functions@7.0.0-beta.44
+├─ @babel/plugin-proposal-object-rest-spread@7.0.0-beta.44
+├─ @babel/plugin-proposal-optional-catch-binding@7.0.0-beta.44
+├─ @babel/plugin-proposal-pipeline-operator@7.0.0-beta.44
+├─ @babel/plugin-proposal-unicode-property-regex@7.0.0-beta.44
+├─ @babel/plugin-syntax-async-generators@7.0.0-beta.44
+├─ @babel/plugin-syntax-object-rest-spread@7.0.0-beta.44
+├─ @babel/plugin-syntax-optional-catch-binding@7.0.0-beta.44
+├─ @babel/plugin-syntax-pipeline-operator@7.0.0-beta.44
+├─ @babel/plugin-transform-arrow-functions@7.0.0-beta.44
+├─ @babel/plugin-transform-async-to-generator@7.0.0-beta.44
+├─ @babel/plugin-transform-block-scoped-functions@7.0.0-beta.44
+├─ @babel/plugin-transform-block-scoping@7.0.0-beta.44
+├─ @babel/plugin-transform-classes@7.0.0-beta.44
+├─ @babel/plugin-transform-computed-properties@7.0.0-beta.44
+├─ @babel/plugin-transform-destructuring@7.0.0-beta.44
+├─ @babel/plugin-transform-dotall-regex@7.0.0-beta.44
+├─ @babel/plugin-transform-duplicate-keys@7.0.0-beta.44
+├─ @babel/plugin-transform-exponentiation-operator@7.0.0-beta.44
+├─ @babel/plugin-transform-for-of@7.0.0-beta.44
+├─ @babel/plugin-transform-function-name@7.0.0-beta.44
+├─ @babel/plugin-transform-literals@7.0.0-beta.44
+├─ @babel/plugin-transform-modules-amd@7.0.0-beta.44
+├─ @babel/plugin-transform-modules-commonjs@7.0.0-beta.44
+├─ @babel/plugin-transform-modules-systemjs@7.0.0-beta.44
+├─ @babel/plugin-transform-modules-umd@7.0.0-beta.44
+├─ @babel/plugin-transform-new-target@7.0.0-beta.44
+├─ @babel/plugin-transform-object-super@7.0.0-beta.44
+├─ @babel/plugin-transform-parameters@7.0.0-beta.44
+├─ @babel/plugin-transform-regenerator@7.0.0-beta.44
+├─ @babel/plugin-transform-shorthand-properties@7.0.0-beta.44
+├─ @babel/plugin-transform-spread@7.0.0-beta.44
+├─ @babel/plugin-transform-sticky-regex@7.0.0-beta.44
+├─ @babel/plugin-transform-template-literals@7.0.0-beta.44
+├─ @babel/plugin-transform-typeof-symbol@7.0.0-beta.44
+└─ @babel/plugin-transform-unicode-regex@7.0.0-beta.44
+Done in 0.30s.
+```
+
+앞에서 본 것 처럼 별다른 설정없이 Env 프리셋을 사용하면, 기본적으로 이 플러그인들이 적용된다. 하지만 Env 프리셋은 그 이름에 걸맞는 특별한 기능들을 가지고 있다.
+
+Env 프리셋은 타겟이 될 "환경"을 [browserslist](https://github.com/browserslist/browserslist)를 사용해 지정하고, ES호환성 테이블의 정보를 활용해서 필요한 플러그인만 선택해주는 스마트한 프리셋이다.
+
+바벨의 엔트리 설정파일 `.babelrc.js`을 만든다.
+
+```js
+module.exports = {
+  presets: [
+    ['@babel/env', {
+      targets: {
+        node: true,
+      },
+    }],
+  ],
+}
+```
+
+기본적으로 플러그인이나 프리셋은 `presets: ["@babel/env"]` 식으로 이름(resolve)만 주고 사용하지만, 세세하게 옵션을 지정할 땐 `[resolve: string, option: Option]` 형태로 들어간다.
+
+- `targets`(`{ [string]: number | string }`): 여기서 프로젝트 타겟 환경을 지정할 수 있다. `chrome`, `opera`, `edge`, `firefox`, `safari`, `ie`, `ios`, `android`, `electron` 식별자로 특정 브라우저 버전을 콕 짚어서 지정할 수 있다. 예를 들면 이런식으로:
+  ```js
+  targets: {
+    ie: 11,
+    chrome: 43, // 물론 여기서 'last 2 versions' 같은 브라우저리스트 셀렉터를 쓸 수도 있다.
+    firefox: 52,
+    edge: 40,
+    ios: 9,
+    android: 5
+  }
+  ```
+  - `node`(`number | string | 'current' | true`): 노드의 프로젝트의 경우 `'current'`나 `true`로 지정하면 실제 바벨을 실행하는 노드 환경의 버전(`process.versions.node`)이 선택된다.
+  - `browsers`(`Array<string> | string`): 일일히 지정하는게 아니라 이 옵션에서 브라우저리스트 셀렉터를 하나 이상 지정해주면 알아서 골라준다. 물론 명시적으로 특정 브라우저를 지정해서 설정했다면, 이 옵션은 오버라이딩 될 것이다.
+
+이참에 `index.js`는 `src/index.js`로 옮기고 `package.json`에 빌드 스크립트도 추가해줘서 프로젝트 스러운 구조를 만들어보자.
+
+```sh
+mkdir src
+mv index.js src/
+```
+
+```diff
+{
+  name: AwesomeProject,
+  version: 1.0.0,
+-  main: index.js,
+  license: MIT,
+  devDependencies: {
+    @babel/cli: ^7.0.0-beta.44,
+    @babel/core: ^7.0.0-beta.44,
+    @babel/polyfill: ^7.0.0-beta.44,
+    @babel/preset-env: ^7.0.0-beta.44
+-  }
++  },  
++  scripts: {
++    build: babel -d dist src,
++    start: yarn build && node dist/index.js
++  }
+}
+```
 
 # 모던 자바스크립트 사용하기
