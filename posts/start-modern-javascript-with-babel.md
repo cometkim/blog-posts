@@ -1,6 +1,7 @@
 ---
 title: Babel 7 + Node.js로 모던 자바스크립트 사용하기
 author: Hyeseong Kim
+date: 2018-04-12
 tags:
   - babel
   - javascript
