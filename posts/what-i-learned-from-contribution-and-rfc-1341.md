@@ -94,7 +94,7 @@ func (og *OpenGraph) processCharsetMetaForHTML4(metaAttrs map[string]string) {
 ```go
 var hasMIME bool
 ...
-    if keyStr == "http-equiv" && strings.EqualFold(valString, "content-type") {
+    if keyStr == "http-equiv" && strings.EqualFold(valStr, "content-type") {
         hasMIME = true
     }
 }
