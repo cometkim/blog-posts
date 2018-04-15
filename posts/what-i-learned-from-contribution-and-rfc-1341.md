@@ -125,15 +125,15 @@ Encoding definition can be a quoted string.
 
 # MIME(Multipurpose Internet Mail Extensions)의 Content-Type 헤더
 
-`Content-Type`은 웹을 안다면 자주 봤을 법한 헤더로써, 주로 HTML4 equiv 태그나 HTTP Response Header에서 확인할 수 있는, 전송 컨텐츠의 MIME 정보를 담는 포맷이다.
+`Content-Type`은 웹을 한다면 자주 봤을 보게 되는(주로 HTML4 equiv 태그나 HTTP Response Header에서 확인할 수 있는), 전송 컨텐츠의 타입정보를 담는 헤더이다.
 
-[MIME 표준에 대해 기술하고 있는 RFC 1341](https://www.w3.org/Protocols/rfc1341/0_TableOfContents.html)의 4번째 챕터에 `Content-Type`의 포맷에 대한 정확한 정의가 나와있었다.
+[MIME 표준에 대해 기술하고 있는 RFC 1341](https://www.w3.org/Protocols/rfc1341/0_TableOfContents.html)의 4번째 챕터에서 `Content-Type`에 대한 정확한 정의를 확인할 수 있다.
 
 `Content-Type := type "/" subtype *[";" parameter]`
 
-문제의 잘못된 파싱은 `parameter` 부분이였는데, `parameter`는 `attribute "=" value`로 정의되어 있고 여기서 `value`가 다시 `token / quoted-string`으로 정의되어 있다.
+지적받은 잘못 파싱된 부분은 `parameter`였는데, `parameter`는 `attribute "=" value`로 정의되어 있고 여기서 `value`가 다시 `token / quoted-string`으로 정의되어 있다.
 
-`token`의 정의에 따르면 일반적으로 쓰는 `utf-8`, `euc-kr`, `windows-1250`등이 가능하다.
+`token`의 정의는 일반적으로 쓰는 `utf-8`, `euc-kr`, `windows-1250` 형식이 맞다.
 
 근데 `quoted-string` 이라고? `'UTF 8'` `'EUC KR'`, `'Windows 1250'` 이런식으로도 가능하다는 얘기같은데 이해한게 맞는지 정확히 모르겠다.
 
@@ -143,14 +143,20 @@ Encoding definition can be a quoted string.
 
 # 표준의 중요성과 오픈소스
 
-표준의 중요성은 아무리 강조해도 지나치지 않다. 하지만 나름 큰 플랫폼에서 놀다보니 그 플랫폼이 표준이라고 착각하게 됐었다.
+표준의 중요성은 아무리 강조해도 지나치지 않다고 생각한다. 하지만 나름 큰 플랫폼에서 놀다보니 그 플랫폼에서 사용되는 방식이 표준이라고 착각하고 있었다.
 
-MIME 포맷은 웹 뿐만 아니라 인터넷 전반을 아우르는 표준이다. 
+MIME은 웹 뿐만 아니라 인터넷 전반을 아우르는 표준이다. 비록 일반적인 환경에서 `token` 형식만 봐왔더라도, 다른 어딘가에서 `quoted-string` 쓰이고 있어 언젠가 문제가 됬을지도 모른다.
 
-플랫폼의 틀에 갖혀 더 넓은 호환성을 놓칠뻔했지만 go-opengraph 모듈의 메인테이너이자, 노련한 웹 개발자로 보이는 Vitaly는 이 부분을 놓치지 않았고, 나에게 잘못된 점과 더 나은 방안을 친절하게 가르쳐 주었다.
+플랫폼의 틀에 갖혀 호환성을 놓칠뻔했지만 go-opengraph 모듈의 메인테이너이자, 노련한 웹 개발자로 보이는 Vitaly는 이 부분을 놓치지 않았고, 나에게 잘못된 점과 더 나은 방안을 친절하게 가르쳐 주었다.
 
 감탄과 함께, 또 다시 오픈소스에서 좋은 경험을 얻었다.
 
 후에 라이브러리 개발자가 되고 싶은 사람으로서, 표준에 대한 경각심을 더 가지고 살아야 할 것 같다.
 
 끝. 이제 자야지
+
+# 추가
+
+나중에 생각해보니 굳이 Charset 알아내려고 HTML 태그 파싱할 필요가 없는게, 정상적인 서버면 응답헤더에도 `Content-Type`이 있겠지.
+
+결론: 의미있는(?) 삽질이였다 ㅋㅋ
