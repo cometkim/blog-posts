@@ -160,3 +160,12 @@ MIME은 웹 뿐만 아니라 인터넷 전반을 아우르는 표준이다. 비�
 나중에 생각해보니 굳이 Charset 알아내려고 HTML 태그 파싱할 필요가 없는게, 정상적인 서버면 응답헤더에도 `Content-Type`이 있겠지.
 
 결론: 의미있는(?) 삽질이였다 ㅋㅋ
+
+# 추가 2
+
+캐릭터셋 인코딩 변환을 위해 iconv 부터 찾다니... 내가 Go를 너무 만만히 본 것 같다.
+
+- ["캐릭터셋 인코딩 결정" 구현에 대한 스펙](https://html.spec.whatwg.org/multipage/parsing.html#determining-the-character-encoding)
+- [Go의 x/net/html 패키지에 있는 위 표준에 대한 구현](https://godoc.org/golang.org/x/net/html/charset#DetermineEncoding)
+
+결론: 재차 강조하지만 삽질하기 싫으면 표준을 살피자..
