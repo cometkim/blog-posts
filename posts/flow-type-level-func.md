@@ -1,5 +1,5 @@
 ---
-title: Flow의 Type-level Application 소개
+title: Flow의 Type-level Function 소개
 author: Hyeseong Kim
 date: 2018-04-20
 tags:
