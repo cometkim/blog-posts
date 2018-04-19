@@ -55,7 +55,7 @@ type EitherOfStringNumber = $Call<EitherF, [string, number]>
 
 이 설명과 예제로는 이해하기 너무 어려우니, 앞서 정의해놓은 `$ExtractReturnType` 통해 어떻게 쓰는지 알아보자.
 
-# [`$Call<F>`](https://flow.org/en/docs/types/utilities/#toc-call)
+# [$Call<F>](https://flow.org/en/docs/types/utilities/#toc-call)
 
 `$Call<F, T>` 유틸리티 함수는 Callable한 타입레벨함수 `F`와 그 함수에 인자로 전달할 타입 `T`를 제네릭 인자로 받아 Flow 서버에서 실제로 실행해서 추론된 타입을 반환한다.
 
@@ -67,7 +67,7 @@ type ReturnType = $Call<ExtractReturnType, Fn>
 (true: ReturnType) // Error: ReturnType is a number
 ```
 
-# [`$ObjMap<T, F>`](https://flow.org/en/docs/types/utilities/#toc-objmap), [`$TupleMap<T, F>`](https://flow.org/en/docs/types/utilities/#toc-objmap)
+# [$ObjMap<T, F>](https://flow.org/en/docs/types/utilities/#toc-objmap), [$TupleMap<T, F>](https://flow.org/en/docs/types/utilities/#toc-objmap)
 
 `$ObjMap<T, F>`와 `$TupleMap<T, F>`는 `Object`/`Array`와 `F`를 받고, 엔티티 타입들에 대해 일괄적으로 `$Call` 해준다. JavaScript에서 `.map()` 함수가 하는 역할을 생각해보면 이해하기 쉬울 것이다.
 
