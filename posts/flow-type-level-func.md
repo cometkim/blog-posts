@@ -19,12 +19,12 @@ Flow의 고급기능에는 생각보다 잘 알려지지 않은 재밌는 것들
 Flow는 오직 Flow 서버에서 타입 추론 용도로만 사용될 타입정의을 지원하는데 이걸 [Type-level function이라고 부르는 것 같다.](https://github.com/facebook/flow/issues/30#issuecomment-346668903)(비공식)
 
 ```js
-type ReturnType = <T>(...args: any): T => T
+type __ReturnType = <T>(...args: any): T => T
 ```
 
 엥? 이거 그냥 [제네릭](https://en.wikipedia.org/wiki/Generic_programming) 아닌가?
 
-제네릭 표현식에 사용되는 템필릿 키워드(`<T>`)가 사용되지만, 사용되는 위치가 약간 다르다.
+제네릭 표현식에 사용되는 타입 파라미터(`<T>`)가 사용되지만, 사용되는 위치가 약간 다르다.
 
 다음은 제네릭과 함께 사용되는 예시이다.
 
@@ -40,6 +40,10 @@ type ArrayF = <A>(x: [A]) => Array<A>
 type ArrOfStrings = $Call<ArrayF, [string]>
 type EitherOfStringNumber = $Call<EitherF, [string, number]>
 ```
+
+제네릭의 경우 타입 파라미터가 선언(Declaration)에 들어가고, 타입수준 함수에서는 정의(Definition)에 들어가는 것을 볼 수 있다.
+
+위 예제는 내가 이해하기 너무 어렵다. 앞서 정의해놓은 `__ReturnType` 통해 어떻게 쓰는지 알아보자.
 
 # `$Call`
 
