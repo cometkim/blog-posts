@@ -105,7 +105,7 @@ run(o).c // Nope, c was not in the original object
 
 TypeScript 2.8에서 Conditional Type이라는 ~~사기적인~~ 기능과 함께 `infer` 키워드가 추가되면서, Flow처럼 [리턴 타입을 추론해내거나 하는 일이 가능](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-8.html#type-inference-in-conditional-types)해졌다.
 
-추가된 기능을 이용해 `Component<P, S>` 템플릿 파라미터의 실제 타입을 추론해낸건데 이건 Flow로도 되지 않을까? 
+추가된 기능을 이용해 `Component<P, S>` 템플릿 파라미터의 실제 타입을 추론해낸건데 이건 Flow로도 되지 않을까?
 
 일단 해보자.
 
@@ -127,7 +127,7 @@ export type MyComponentProps = $InferPropsType<MyComponent>
 
 솔직히, TypeScript에선 되지만 Flow에서 안되는 것들도 몇 번 봐왔기 때문에 (Conditional Type 이라니 다시 생각해도 너무 사기적인 기능 아닌가?) 안될 수도 있겠다 싶어 불안했지만...
 
-![Flow InferPropType](images/)
+![Flow InferPropType](images/flow-infer-props-type-of-component.png)
 
 > Flow를 제대로 활용하고 싶다면, VSCode보단 Atom + Nuclide 가 더 나은 선택이다.
 
