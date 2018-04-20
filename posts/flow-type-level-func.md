@@ -53,9 +53,9 @@ type EitherOfStringNumber = $Call<EitherF, [string, number]>
 
 그리고 파라미터 타입과 리턴 타입을 정의하는데 앞서 정의한 컨텍스트를 활용할 수 있는 식이다.
 
-이 설명과 예제로는 이해하기 너무 어려우니, 앞서 정의해놓은 `$ExtractReturnType` 통해 어떻게 쓰는지 알아보자.
+이 설명과 예제로는 이해하기 너무 어려우니, 앞서 정의해놓은 `ExtractReturnType` 통해 어떻게 쓰는지 알아보자.
 
-# [$Call<F>](https://flow.org/en/docs/types/utilities/#toc-call)
+# [$Call](https://flow.org/en/docs/types/utilities/#toc-call)
 
 `$Call<F, T>` 유틸리티 함수는 Callable한 타입레벨함수 `F`와 그 함수에 인자로 전달할 타입 `T`를 제네릭 인자로 받아 Flow 서버에서 실제로 실행해서 추론된 타입을 반환한다.
 
@@ -64,10 +64,12 @@ type Fn = () => number
 type ReturnType = $Call<ExtractReturnType, Fn>
 
 (5: ReturnType)    // OK
+
+// $ExpectError
 (true: ReturnType) // Error: ReturnType is a number
 ```
 
-# [$ObjMap<T, F>](https://flow.org/en/docs/types/utilities/#toc-objmap), [$TupleMap<T, F>](https://flow.org/en/docs/types/utilities/#toc-objmap)
+# [$ObjMap](https://flow.org/en/docs/types/utilities/#toc-objmap), [$TupleMap](https://flow.org/en/docs/types/utilities/#toc-tuplemap)
 
 `$ObjMap<T, F>`와 `$TupleMap<T, F>`는 `Object`/`Array`와 `F`를 받고, 엔티티 타입들에 대해 일괄적으로 `$Call` 해준다. JavaScript에서 `.map()` 함수가 하는 역할을 생각해보면 이해하기 쉬울 것이다.
 
@@ -115,10 +117,10 @@ TypeScript 2.8에서 Conditional Type이라는 ~~사기적인~~ 기능과 함께
 
 ```flow
 import { Component } from 'react'
-import { MyComponent } from 'component'
+import MyComponent from './component'
 
 type InferPropsTypeFn = <P, C: Component<P>>(comp: C) => P
-type $InferPropsType<C: Component> = $Call<InferPropsTypeFn, C>
+type $InferPropsType<C: Component<any>> = $Call<InferPropsTypeFn, C>
 
 export type MyComponentProps = $InferPropsType<MyComponent>
 ```
@@ -144,9 +146,9 @@ Redux에서 사용되는 Reducer는 부분적인 State와 Action을 받아 새�
 ```flow
 import type { Reducers } from 'reducers'
 
-type $ExtractReturnType = <V>(v: (...args: any) => V) => V
+type ExtractReturnType = <V>(v: (...args: any) => V) => V
 
-export type State = $ObjMap<Reducers, $ExtractReturnType>
+export type State = $ObjMap<Reducers, ExtractReturnType>
 ```
 
 전체 상태를 힘겹게 다시 정의하지 않아도 되는 유용한 패턴이다.
@@ -190,7 +192,7 @@ type BarType = $Call<
 
 여느 Facebook 라이브러리들이 그렇듯, 문서에는 Concept과 Philosophy 위주로 설명되어 있고 MS처럼 진입장벽을 허물고 사용자를 포섭하려는 노력이 부족한 것 같다.
 
-나날히 발전하는 TypeScript 진영을 보면서, 그리고 이미 종말의 치달은 Flow의 이슈트래커와 그래도 아직 Flow가 나은점이 있다고 위로하면서도 정작 자신의 프로젝트에는 TypeScript를 셋업하고 있는 나를 보면서 Flow 사용자로서의 자부심이 바닥을 치고 있는 요즘이다.
+나날히 발전하는 TypeScript 진영을 보면서, 그리고 이미 종말에 치달은 Flow의 이슈트래커와, 그래도 아직 Flow가 나은점이 있다고 위로하면서도 정작 자신의 프로젝트에는 TypeScript를 셋업하고 있는 나를 보면서, Flow 사용자로서의 자부심이 바닥을 치고 있는 요즘이다.
 
 기능 자체는 Flow에서 먼저 나오고 TypeScript가 따라오는 형태라도, Flow의 코드베이스가 OCaml인 만큼(대체 왜...) 신규 기여자 유입이 많이 힘들어서 다다음 릴리즈 쯤이면 전부 따라잡힐 것 같다.
 
