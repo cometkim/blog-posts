@@ -12,6 +12,13 @@ tags:
 
 루비 자체도 생소하거니와 MVC 프레임워크를 메인으로 쓰는 것도 예전에 Spring 3 코드 분석한 것 이외에 경험이 없으므로 익숙해 질 때까지 다양한 방면으로 스터디 하면서 새롭게 알게 된 사실을 모두 기록한다.
 
+## 스타일 가이드
+
+루비와 레일즈 커뮤니티에서 사용하는 관례는 스타일 가이드를 참고한다.
+
+- [루비 스타일 가이드 (한국어)](https://github.com/dalzony/ruby-style-guide/blob/master/README-koKR.md)
+- [루비 온 레일즈 스타일 가이드 (한국어)](https://github.com/pureugong/rails-style-guide/blob/master/README-koKR.md)
+
 ## Gem
 Ruby 패키지 관리자
 
