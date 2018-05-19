@@ -101,3 +101,5 @@ rails generate controller Article index show new create edit update destroy
 ```
 rails generate scaffold Article title:string description:text
 ```
+
+일반적인 액션(`index`, `new`, `edit`, `show`, `create`, `update`, `destroy`)들을 자동으로 생성한다.
