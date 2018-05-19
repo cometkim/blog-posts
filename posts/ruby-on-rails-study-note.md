@@ -104,7 +104,7 @@ DB 테이블 스키마 정의, DB 마이그레이션 코드, 모델 코드를 �
 rails generate controller Article index show new create edit update destroy
 ```
 
-`ArticleController` 컨트롤러와 넘긴 액션들에 해당하는 메서드와, 뷰, 라우트 코드를 일괄적으로 생성한다.
+`ArticleController` 컨트롤러와 지정한 액션들에 해당하는 메서드와, 뷰, 라우트 코드를 일괄적으로 생성한다.
 
 ### 스캐폴딩
 
