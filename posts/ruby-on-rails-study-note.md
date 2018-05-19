@@ -97,7 +97,7 @@ rails generate Article title:string description:text
 
 DB 테이블 스키마 정의, DB 마이그레이션 코드, 모델 코드를 일괄적으로 생성한다.
 
-스키마가 변경된 후면 반드시 `rake db:migrate`로 마이그레이션을 수행한다.
+스키마가 변경된 후면 반드시 `rails db:migrate`로 마이그레이션을 수행한다.
 
 ### 컨트롤러
 ```
