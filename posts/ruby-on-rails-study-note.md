@@ -75,3 +75,29 @@ Rails 5 부터 rails-api 통합, API-only 모드 지원
 
 https://guides.rorlab.org/api_app.html
 
+## 레일즈 제너레이터 사용하기
+`rails generate` 명령어를 사용하면 모델, 뷰, 컨트롤러 코드를 직접 추가하지 않고 자동으로 생성할 수 있다.
+
+### 모델
+```
+rails generate Article title:string description:text
+```
+
+DB 테이블 스키마 정의, DB 마이그레이션 코드, 모델 코드를 일괄적으로 생성한다.
+
+스키마가 변경된 후면 반드시 `rake db:migrate`로 마이그레이션을 수행한다.
+
+### 컨트롤러
+```
+rails generate controller Article index show new create edit update destroy
+```
+
+`ArticleController` 컨트롤러와 넘긴 액션들에 해당하는 메서드와, 뷰, 라우트 코드를 일괄적으로 생성한다.
+
+### 스캐폴딩
+
+리소스에 대한 모델, 뷰, 컨트롤러를 일괄적으로 생성하기 위해 `rails generate scaffold ...` 명령어를 사용한다.
+
+```
+rails generate scaffold Article title:string description:text
+```
