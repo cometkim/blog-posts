@@ -76,12 +76,12 @@ DB에 `product`(기본값으로 모델명의 snake_lower_case) 테이블과 자�
 
 더 많은 쿼리 인터페이스는 [문서](https://guides.rorlab.org/active_record_querying.html) 참고
 
-### Rails Console
+### 레일즈 콘솔
 `rails console` 명령어로 레일즈 콘솔을 실행한다.
 
 실행되는 irb 세션을 통해 액티브 레코드를 조회할 수 있다.
 
-## JSON API Server
+## JSON API 서버
 
 Rails 5 부터 rails-api 통합, API-only 모드 지원
 
