@@ -58,7 +58,7 @@ ERB는 eRuby의 구현체로 레일즈에서 뷰를 구현하는 데 사용
 `app/models` 경로에 `product.rb` 파일 생성
 
 ```rb
-class Product < ActiveRecord
+class Product < ApplicationRecord
     # ...
 end
 ```
