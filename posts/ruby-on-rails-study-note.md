@@ -42,19 +42,10 @@ Rails, Sinatra 등 대표적인 루비 웹 프레임워크에 내장되어 있�
 
 레일즈 내에서의 사용은 [문서](https://guides.rorlab.org/rails_on_rack.html)를 참고
 
-## eRuby (Embedded Ruby) & ERB
-Ruby 내장 템플릿 시스템
-
-ERB는 eRuby의 구현체로 레일즈에서 뷰를 구현하는 데 사용
-
-- Expression: `<%= %>`
-- Execution: `<% %>`
-- Comments: `<%# %>`
-
 ## Active Record
-모델 계층을 구현하는 대표적인 패턴이자, 레일즈에서 제공되는 ORM 프레임워크의 이름
+MVC의 M을 구성한다. 모델 계층을 구현하는 대표적인 패턴의 이름이자, 레일즈에서 제공되는 ORM 프레임워크의 이름
 
-### 모델 정의하기
+### Model 정의
 `app/models` 경로에 `product.rb` 파일 생성
 
 ```rb
@@ -81,13 +72,62 @@ DB에 `product`(기본값으로 모델명의 snake_lower_case) 테이블과 자�
 
 실행되는 irb 세션을 통해 액티브 레코드를 조회할 수 있다.
 
+## Action Controller
+
+MVC에서 C를 구성한다. 레일즈의 컨트롤러 `ApplicationController`를 상속받는 루비 클래스이다.
+
+### Controller 정의
+
+`app/controllers` 경로에 `articles_controller.rb` 파일 생성 
+
+
+```rb
+class ArticlesController < ApplicationController
+end
+```
+
+### Action
+
+Router에서 지정한 액션명과 동일한 이름의 메서드를 정의한다.
+
+```rb
+Rails.application.routes.draw do
+  # ...
+  get 'articles/:id/edit', to: 'articles#edit'
+
+end
+```
+
+```rb
+class ArticlesController < ApplicationController
+   def edit
+     # ...
+   end
+end
+```
+
+### Params
+
+## View
+
+### eRuby (Embedded Ruby) & ERB
+Ruby 내장 템플릿 시스템
+
+ERB는 eRuby의 구현체로 레일즈에서 뷰를 구현하는 데 사용
+
+- Expression: `<%= %>`
+- Execution: `<% %>`
+- Comments: `<%# %>`
+
+### Partials
+
 ## JSON API 서버
 
 Rails 5 부터 rails-api 통합, API-only 모드 지원
 
 https://guides.rorlab.org/api_app.html
 
-## 레일즈 제너레이터 사용하기
+## 레일즈 제너레이터 사용
 `rails generate` 명령어를 사용하면 모델, 뷰, 컨트롤러 코드를 직접 추가하지 않고 자동으로 생성할 수 있다.
 
 ### 모델
@@ -116,17 +156,4 @@ rails generate scaffold Article title:string description:text
 
 일반적인 액션(`index`, `new`, `edit`, `show`, `create`, `update`, `destroy`)들을 자동으로 생성한다.
 
-## Action Controller
-
-레일즈의 컨트롤러 `ApplicationController`를 상속받는 루비 클래스이다.
-```rb
-class ArticlesController < ApplicationController
-end
-```
-
-### Action
-
-### Params
-
-## Partials
-
+## Webpacker
