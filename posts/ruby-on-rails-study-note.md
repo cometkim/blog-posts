@@ -20,20 +20,25 @@ tags:
 - [루비 온 레일즈 스타일 가이드 (한국어)](https://github.com/pureugong/rails-style-guide/blob/master/README-koKR.md)
 
 ## Gem
+
 Ruby 패키지 관리자
 
 ## rbenv
+
 Ruby 실행 환경 관리자
 
 ## Bundler
+
 Ruby Gem 의존성 관리자
 
 `Gemfile`, `Gemfile.lock` 을 통한 의존성 간 버전 추적/관리 제공
 
 ## [Rake](https://github.com/ruby/rake)
+
 Ruby로 작성하는 Makefile
 
 ## [Rack](https://rack.github.io)
+
 웹 커뮤니케이션을 위한 최소한의 인터페이스를 제공한다. 표준 응답코드, 헤더 등...
 
 Handler - Middleware - Adopter 구성으로 웹 서버와 웹 프레임워크 사이의 인터페이스 역할을 해주어, 특정 프레임워크나 웹서버에 의존적이지 않은 다양한 미들웨어를 제공한다.
@@ -43,9 +48,11 @@ Rails, Sinatra 등 대표적인 루비 웹 프레임워크에 내장되어 있�
 레일즈 내에서의 사용은 [문서](https://guides.rorlab.org/rails_on_rack.html)를 참고
 
 ## Active Record
+
 MVC의 M을 구성한다. 모델 계층을 구현하는 대표적인 패턴의 이름이자, 레일즈에서 제공되는 ORM 프레임워크의 이름
 
 ### Model 정의
+
 `app/models` 경로에 `product.rb` 파일 생성
 
 ```rb
@@ -57,6 +64,7 @@ end
 DB에 `product`(기본값으로 모델명의 snake_lower_case) 테이블과 자동으로 매핑된다.
 
 ### CRUD
+
 - `Product.create` 메서드로 새로운 레코드 생성
 - `Product.new` 메서드는 레코드 생성하지 않고 인스턴스만 반환
 - `Product.save` 메서드로 인스턴스를 레코드와 동기화
@@ -68,6 +76,7 @@ DB에 `product`(기본값으로 모델명의 snake_lower_case) 테이블과 자�
 더 많은 쿼리 인터페이스는 [문서](https://guides.rorlab.org/active_record_querying.html) 참고
 
 ### 레일즈 콘솔
+
 `rails console` 명령어로 레일즈 콘솔을 실행한다.
 
 실행되는 irb 세션을 통해 액티브 레코드를 조회할 수 있다.
@@ -111,6 +120,7 @@ end
 ## View
 
 ### eRuby (Embedded Ruby) & ERB
+
 Ruby 내장 템플릿 시스템
 
 ERB는 eRuby의 구현체로 레일즈에서 뷰를 구현하는 데 사용
@@ -128,9 +138,11 @@ Rails 5 부터 rails-api 통합, API-only 모드 지원
 https://guides.rorlab.org/api_app.html
 
 ## 레일즈 제너레이터 사용
+
 `rails generate` 명령어를 사용하면 모델, 뷰, 컨트롤러 코드를 직접 추가하지 않고 자동으로 생성할 수 있다.
 
 ### 모델
+
 ```
 rails generate Article title:string description:text
 ```
@@ -140,6 +152,7 @@ DB 테이블 스키마 정의, DB 마이그레이션 코드, 모델 코드를 �
 스키마가 변경된 후면 반드시 `rails db:migrate`로 마이그레이션을 수행한다.
 
 ### 컨트롤러
+
 ```
 rails generate controller Article index show new create edit update destroy
 ```
