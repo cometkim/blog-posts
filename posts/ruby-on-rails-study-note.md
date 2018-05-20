@@ -104,7 +104,7 @@ DB 테이블 스키마 정의, DB 마이그레이션 코드, 모델 코드를 �
 rails generate controller Article index show new create edit update destroy
 ```
 
-`ArticleController` 컨트롤러와 지정한 액션들에 해당하는 메서드와, 뷰, 라우트 코드를 일괄적으로 생성한다.
+`ArticlesController` 컨트롤러와 지정한 액션들에 해당하는 메서드와, 뷰, 라우트 코드를 일괄적으로 생성한다.
 
 ### 스캐폴딩
 
@@ -115,3 +115,18 @@ rails generate scaffold Article title:string description:text
 ```
 
 일반적인 액션(`index`, `new`, `edit`, `show`, `create`, `update`, `destroy`)들을 자동으로 생성한다.
+
+## Action Controller
+
+레일즈의 컨트롤러 `ApplicationController`를 상속받는 루비 클래스이다.
+```rb
+class ArticlesController < ApplicationController
+end
+```
+
+### Action
+
+### Params
+
+## Partials
+
