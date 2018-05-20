@@ -167,7 +167,9 @@ rails generate controller Article index show new create edit update destroy
 rails generate scaffold Article title:string description:text
 ```
 
-일반적인 액션(`index`, `new`, `edit`, `show`, `create`, `update`, `destroy`)들을 자동으로 생성한다.
+모델, 라우트, 컨트롤러, 일반적인 액션(`index`, `new`, `edit`, `show`, `create`, `update`, `destroy`)들과 해당 뷰까지 자동으로 생성한다.
+
+레일즈의 기본적인 사용법은 여기서 생성되는 코드들만 따라가도 배울 수 있다.
 
 ## Webpacker
 
