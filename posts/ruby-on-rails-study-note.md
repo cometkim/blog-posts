@@ -166,4 +166,4 @@ https://github.com/rails/webpakcer
 - React, Angular, Vue 등 뷰 프레임워크 사용
 - TypeScript, CoffeeScript 등 pre-compile js 사용
 - PostCSS 사용
-
+- HMR 지원
