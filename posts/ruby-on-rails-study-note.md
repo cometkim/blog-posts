@@ -157,3 +157,13 @@ rails generate scaffold Article title:string description:text
 일반적인 액션(`index`, `new`, `edit`, `show`, `create`, `update`, `destroy`)들을 자동으로 생성한다.
 
 ## Webpacker
+
+https://github.com/rails/webpakcer
+
+레일즈의 에셋 파이프라인에 Webpack을 통합한다. 따라서 아래와 같은 것들이 가능해짐
+- Webpack 을 통한 번들링
+- Babel을 통한 ES6+ 사용
+- React, Angular, Vue 등 뷰 프레임워크 사용
+- TypeScript, CoffeeScript 등 pre-compile js 사용
+- PostCSS 사용
+
