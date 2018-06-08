@@ -116,7 +116,19 @@ RUN apk add --update \
 
 ### Tip: 잘 설치됐는지 검증하기
 
-셋업 과정에서 의존성을 설치할 때, 패키지 매니져를 통해 설치한 경우 신뢰도가 높지만 수동 설치하는 경우는  
+셋업 과정에서 의존성을 설치할 때, 패키지 매니져를 통해 설치한 경우 신뢰도가 높지만 수동 설치하는 경우는 설치가 잘 완료되었는지 검증할 필요가 있다.
+
+방법은 간단하다. 명령어를 한 번 수행해보면 된다. 주로 버전을 보는 커맨드로 검증한다.
+
+```dockerfile
+# NodeJS를 수동 설치 하는 예제
+
+RUN apk install --update curl
+
+ENV NODE_VERSION 8.11.2
+RUN curl -fsSLO https://nodejs.org/dist/v8.11.2/node-v{8.11.2-linux-x64.tar.xz
+
+```
 
 ## ENTRYPOINT 스크립트
 
