@@ -352,11 +352,15 @@ exec "$@"
 
 다시 이미지를 빌드하고 실행해보면 자동적으로 필요한 과정들이 수행되고 성공적으로 레일즈 앱을 컨테이너로 실행할 수 있다.
 
-# docker-compose로 서비스 스택 정의하기
+# docker-compose 사용하기
 
 [docker-compose](https://docs.docker.com/compose/overview)는 컨테이너 실행에 필요한 옵션들을 Yaml 형태의 DSL로 제공하고 여러 컨테이너들을 하나의 스택으로 관리할 수 있는 기능을 제공하는 도구이다.
 
 DB, App, Web 서비스를 하나의 스택으로 정의하고 docker-compose가 제공하는 다양한 커맨드를 통해 쉽게 관리할 수 있다.
+
+## 서비스 스택 정의하기
+
+프로젝트 경로에 `docker-compose.yml` 파일을 추가한다. (보통 프로젝트 상위 경로에서 하는 것이 일반적이긴 하다)
 
 ```yaml
 version: '3.5'
@@ -371,14 +375,19 @@ services:
       - /etc/localtime:/etc/localtime:ro
 
   app:
-    build: ./
+    build: .
     env_file: .env
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST:-db}
+      - MYSQL_PORT=${MYSQL_PORT:-3306}
     volumes:
       - app-assets:/app/public/assets
       - app-data:/app/storage
       - app-logs:/app/log
       - /etc/localtime:/etc/localtime:ro
 
+  # Rails는 프로덕션 모드에서 기본적으로 public/ 경로의 정적파일들을 서브하지 않도록 설정되어 있다.
+  # 웹 서버를 사용하지 않는 경우 `config/environments/production.rb` 파일에서 `config.public_file_server.enabled` 옵션을 true로 변경해야 한다.
   web:
     build:
       dockerfile: nginx.Dockerfile
@@ -397,12 +406,18 @@ volumes:
   web-logs:
 ```
 
+MariaDB는 DockerHub에서 받은 이미지를 그대로 사용하고, NGINX는 공식이미지에 프로젝트에서 사용하는 정적파일들과 기본설정을 추가해서 사용했다.  
+
+`nginx.Dockerfile`을 프로젝트 경로에 추가해준다.
+
 ```dockerfile
 FROM nginx:alpine
 COPY public /web/public
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 VOLUME ["/var/log/nginx"]
 ```
+
+`nginx.conf` 파일도 프로젝트 경로에 추가한다.
 
 ```nginx
 server {
@@ -423,14 +438,14 @@ server {
     error_page 404 /404.html;
     error_page 422 /422.html;
 
-    location ~ .*\.(js|css|ico|txt|eot|ttf|woff|woff2)& {
+    location ~ .*\.(ico|txt|eot|ttf|woff|woff2)& {
         access_log off;
         log_not_found off;
     }
 
     location ~ ^/assets/ {
-        root /web/public;
         gzip_static on;
+        root /web/public;
     }
 
     location ~ ^/(500|404|422).html& {
@@ -445,6 +460,20 @@ server {
     }
 }
 ```
+
+나는 일반적인 nginx 설정을 이미지에 직접 추가해주었고 프로젝트의 git 레파지토리에서 함께 관리하도록 하였는데, 이보다 더 복잡한 설정 파일 관리가 필요한 경우 설정 파일 경로(`/etc/nginx/conf.d`) 전체를 볼륨으로 관리해줄 수도 있다.
+
+## docker-compose 커맨드로 서비스 관리하기
+
+이렇게 구성을 전부 정의해놓고 나면 커맨드를 사용해서 전체 서비스를 쉽게 관리할 수 있다.
+
+- `docker-compose up -d --build` 커맨드를 실행하면 docker-compose가 스택에 정의된 내용을 바탕으로 도커 컨테이너, 네트워크, 볼륨을 만들어 생성하여 서비스를 구성해준다.
+
+- `docker-compose start [service]`, `docker-compose stop [service]`, `docker-compose kill [service]` 명령어로 전체 또는 개별 서비스를 관리할 수 있다.
+
+- `docker-compose logs [-f] [service]` 명령어로 서비스에서 출력한 로그를 볼 수 있다.
+
+- `docker-compose down` 명령어로 전체 스택을 중지하고 컨테이너와 네트워크를 삭제하며, `docker-compose down -v` 명령어를 사용하면 볼륨까지 삭제되어 서비스 전체를 완전히 초기화할 수 있다.
 
 # 마무리하며
 
