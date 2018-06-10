@@ -439,7 +439,7 @@ server {
     error_page 404 /404.html;
     error_page 422 /422.html;
 
-    location ~ .*\.(ico|txt|eot|ttf|woff|woff2)& {
+    location ~ .*\.(ico|txt|eot|ttf|woff|woff2)$ {
         access_log off;
         log_not_found off;
     }
@@ -449,7 +449,7 @@ server {
         root /web/public;
     }
 
-    location ~ ^/(500|404|422).html& {
+    location ~ ^/(500|404|422).html$ {
         root /web/public;
     }
 
