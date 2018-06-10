@@ -44,6 +44,8 @@ FROM ruby:2.5.1-alpine
 ### Setup: 절차에서 필요한 의존성을 설치한다.
 
 ```dockerfile
+ENV NODE_VERSION 8.11.2
+
 RUN apk add --no-cache --update \
     ca-certificates \
     linux-headers \
@@ -55,73 +57,46 @@ RUN apk add --no-cache --update \
     nodejs \
     yarn
 
-RUN gem install bundler
+RUN gem install bundler \
+    && bundler config --global frozen 1
 ```
 
 이 패키지들이 레일즈 애플리케이션을 구동하는 데 필요한 최소한의 패키지들이다.
 
-### 버전 잠금(Lock)
+도커 컨테이너는 언제 몇 번을 빌드하고 실행하던 선언된 동작이 동일하게 수행되도록 불변성과 멱등성을 보장해야한다.  의존성 설치과정에서 버전 지정이 확실하지 않으면 설치되는 의존성 모듈의 버전에 따라 동작이 바뀔 여지가 있다. 버전 지정을 위한 몇 가지 규칙을 정해놓으면 좋다.
 
-도커 컨테이너는 언제 몇 번을 빌드하고 실행하던 선언된 동작이 동일하게 수행되도록 불변성과 멱등성을 보장해야한다. 
-
-의존성 설치과정에서 버전 지정이 확실하지 않으면 설치되는 의존성 모듈의 버전에 따라 동작이 바뀔 여지가 있다. 버전 지정을 위한 몇 가지 규칙을 정해놓으면 좋다.
-
-- 호환성이 상관없는(주로 단일 기능만 수행하는 모듈) 경우 마지막 버전을 설치한다.
+- 호환성이 상관없는(주로 단일 기능만 수행하는 모듈) 경우 마지막 안정(Stable) 버전을 설치한다.
 - 버전에 따른 호환성 변경이 있는 경우, 버전을 지정해서 설치한다.
-- `ENV` 디렉티브를 이용한다.
+- 버전 지정의 경우 `ENV` 디렉티브를 이용해서 명시하고 참조가 가능하도록 한다.
 
-```diff
-ENV NODE_VERSION 8.11.2
+현대적인 패키지 매니져들은 대부분 버전 잠금(Lock) 기능을 제공하니 활용하자.
 
-RUN apk add --update \
-    ca-certificates \
-    linux-headers \
-    build-base \
-    libxml2-dev \
-    libxslt-dev \
-    tzdata \
-    mariadb-dev \
--   nodejs
-+   nodejs\>${NODE_VERSION} \
-    yarn
-```
+추가적으로 번들러의 경우 `frozen` 옵션을 활성화하면 컨테이너 내부에서 패키지 버전이 임의로 변경되지 않도록 강제할 수 있다.
 
-대부분의 현대적인 패키지 매니져는 [Semantic Versioning](https://semver.org)을 따라가는 경우가 많아, 설치되는 패키지의 마이너 버전이 바뀔 수 있는데 이를 방지하기 위해 제공되는 버전 잠금 기능을 활용하자.
+### Build: 소스 코드 복사 후 빌드
 
-```diff
--RUN gem install bundler
-+RUN gem install bundler \
-+    && bundle config --global frozen 1
-```
-
-번들러의 경우 `frozen` 옵션을 활성화하면 컨테이너 내부에서 패키지 버전이 임의로 변경되지 않도록 강제할 수 있다.
-
-### 애플리케이션 복사
-
-루비의 경우 별도의 컴파일 절차가 없으므로, 소스코드를 복사하는 것만으로 실행 준비가 끝난다.
+루비의 경우 별도의 컴파일이 필요하지 않으므로, 소스코드를 복사하는 것만으로 실행 준비가 끝난다.
 
 ```dockerfile
 WORKDIR /usr/src/app
 
 ENV RAILS_ENV production
 
+# Node 모듈 설치
 COPY package.json yarn.lock ./
 RUN yarn install --production
 
+# Gem 모듈 설치
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --without development test
 
+# 레일즈 앱 전체 복사
 COPY . .
-
-EXPOSE 3000
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
 ```
 
 `WORKDIR` 디렉티브를 사용하면 작업 디렉토리가 새로 생성되고 커맨드들이 해당 작업 디렉토리를 기준으로 실행된다.
 
-도커 이미지는 디렉티브마다 레이어를 만든다. 레이어 캐시 여부에 따라 빌드 시간이 대폭 차이나므로 레이어를 잘 나누어야 한다.
-
-소스코드가 변경될 때 마다 패키지 설치부터 다시하면 비효율적이기 때문에 세 개의 `RUN`으로 나누어주고 변경이 적은 것부터 잦은 것 순으로 배치한다.
+도커 이미지는 디렉티브마다 레이어를 만들고 빌드 할 때 이 레이어 단위로 캐시한다. 캐시 여부에 따라 빌드 시간이 대폭 차이나므로 레이어를 잘 나누어야 한다. 소스코드가 변경될 때 마다 패키지 설치부터 다시하면 매우 비효율적이기 때문에 `RUN` 디렉티브를 나누어주고 변경이 적은 것부터 잦은 것 순 으로 배치한다.
 
 ## ENTRYPOINT 스크립트
 
