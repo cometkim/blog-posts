@@ -44,42 +44,24 @@ FROM ruby:2.5.1-alpine
 ### Setup: 절차에서 필요한 의존성을 설치한다.
 
 ```dockerfile
-RUN apk add --update \
+RUN apk add --no-cache --update \
     ca-certificates \
     linux-headers \
     build-base \
     libxml2-dev \
     libxslt-dev \
     tzdata \
-    nodejs
+    mariadb-dev \
+    nodejs \
+    yarn 
+    
+RUN gem install bundler
 ```
 
-ca-certificates는 컨테이너에서 외부로 HTTPS 요청할 때 필요하므로 반드시 설치해주도록 한다.
+이 패키지들이 레일즈 애플리케이션을 구동하는 데 필요한 최소한의 패키지들이다
+### 버전 잠금(Lock)
 
-그 외 패키지들이 레일즈가 직접 호출하거나 네이티브 모듈을 빌드할 때 사용하는 최소한의 패키지들이다.
-
-원하는 의존성을 위한 설치 패키지가 제공되지 않는다면 다른 설치 옵션을 사용할 수 있다. 해당 의존성 모듈의 홈페이지 등을 참고해서 설치하면 된다. 수동 설치를 해야한다면 소스코드 컴파일을 위한 모듈을 더 받아야 한다.
-
-```diff
-RUN apk add --update \
-    ca-certificates \
-    linux-headers \
-    build-base \
-    libxml2-dev \
-    libxslt-dev \
-    tzdata \
--   nodejs
-+   nodejs \
-+   yarn
-
-+RUN gem install bundler
-```
-
-프레임워크에서 사용하는 패키지 매니져를 설치한다. 레일즈에선 [Bundler](https://bundler.io) 를 사용하며, [5.1 버전 부터는 에셋 파이프라인에서 Yarn을 JavaScript 패키지 매니져로 사용](http://guides.rubyonrails.org/5_1_release_notes.html#yarn-support)한다.
-
-### Tip: 버전 잠금(Lock)
-
-컨테이너는 언제 빌드해서 언제 실행하던 몇 번을 수행하던 선언된 동작이 동일하게 수행되도록 불변성과 멱등성을 보장해야한다. 
+도커 컨테이너는 언제 몇 번을 빌드하고 실행하던 선언된 동작이 동일하게 수행되도록 불변성과 멱등성을 보장해야한다. 
 
 의존성 설치과정에서 버전 지정이 확실하지 않으면 설치되는 의존성 모듈의 버전에 따라 동작이 바뀔 여지가 있다. 버전 지정을 위한 몇 가지 규칙을 정해놓으면 좋다.
 
@@ -97,12 +79,13 @@ RUN apk add --update \
     libxml2-dev \
     libxslt-dev \
     tzdata \
+    mariadb-dev \
 -   nodejs
 +   nodejs\>${NODE_VERSION} \
     yarn
 ```
 
-프로그래밍 언어에서 제공하는 패키지 매니져를 사용하는 경우 [Semantic Versioning](https://semver.org)을 따라가는 경우가 많아서 마이너 버전이 매번 다르게 설치될 수도 있다. 패키지 매니져에서 제공하는 버전 잠금 기능을 활용하자 
+대부분의 현대적인 패키지 매니져는 [Semantic Versioning](https://semver.org)을 따라가는 경우가 많아, 설치되는 패키지의 마이너 버전이 바뀔 수 있는데 이를 방지하기 위해 제공되는 버전 잠금 기능을 활용하자.
 
 ```diff
 -RUN gem install bundler
@@ -112,21 +95,32 @@ RUN apk add --update \
 
 번들러의 경우 `frozen` 옵션을 활성화하면 컨테이너 내부에서 패키지 버전이 임의로 변경되지 않도록 강제할 수 있다.
 
-### Tip: 잘 설치됐는지 검증하기
+### 애플리케이션 복사
 
-셋업 과정에서 의존성을 설치할 때, 패키지 매니져를 통해 설치한 경우 신뢰도가 높지만 수동 설치하는 경우는 설치가 잘 완료되었는지 검증할 필요가 있다.
-
-방법은 간단하다. 명령어를 한 번 수행해보면 된다. 주로 버전을 보는 커맨드로 검증한다.
+루비의 경우 별도의 컴파일 절차가 없으므로, 소스코드를 복사하는 것만으로 실행 준비가 끝난다.
 
 ```dockerfile
-# NodeJS를 수동 설치 하는 예제
+WORKDIR /usr/src/app
 
-RUN apk install --update curl
+ENV RAILS_ENV production
 
-ENV NODE_VERSION 8.11.2
-RUN curl -fsSLO https://nodejs.org/dist/v8.11.2/node-v{8.11.2-linux-x64.tar.xz
+COPY package.json yarn.lock ./
+RUN yarn install --production
 
+COPY Gemfile Gemfile.lock ./
+RUN bundle install --without development test
+
+COPY . .
+
+EXPOSE 3000
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
 ```
+
+`WORKDIR` 디렉티브를 사용하면 작업 디렉토리가 새로 생성되고 커맨드들이 해당 작업 디렉토리를 기준으로 실행된다.
+
+도커 이미지는 디렉티브마다 레이어를 만든다. 레이어 캐시 여부에 따라 빌드 시간이 대폭 차이나므로 레이어를 잘 나누어야 한다.
+
+소스코드가 변경될 때 마다 패키지 설치부터 다시하면 비효율적이기 때문에 세 개의 `RUN`으로 나누어주고 변경이 적은 것부터 잦은 것 순으로 배치한다.
 
 ## ENTRYPOINT 스크립트
 
