@@ -4,8 +4,9 @@ author: Hyeseong Kim
 date: 2018-06-05
 tags:
   - ruby
-  - rails
+  - ruby-on-rails
   - docker
+  - docker-compose
   - devops
 references:
   - https://12factor.net
@@ -33,7 +34,7 @@ Dockerfile 이미지를 만들고 docker-compose로 서비스를 정의하는 �
 
 웹 애플리케이션의 Dockerfile을 작성하는 것은 패턴이 있기 때문에 단계별로 나눠서 서술해본다
 
-### 먼저 기반 이미지를 지정한다
+### 기반 이미지 지정
 
 ```dockerfile
 FROM ruby:2.5.1-alpine
@@ -43,7 +44,7 @@ FROM ruby:2.5.1-alpine
 
 문제가 없다면 가벼운 alpine 기반의 이미지를 사용하는 편이 이미지를 경량화 하고 빌드시간을 최소화할 수 있다.
 
-### Setup: 절차에서 필요한 의존성을 설치한다
+### 필요한 의존성 설치
 
 ```dockerfile
 ENV NODE_VERSION 8.11.2
@@ -75,7 +76,7 @@ RUN gem install bundler \
 
 추가적으로 번들러의 경우 `frozen` 옵션을 활성화하면 컨테이너 내부에서 패키지 버전이 임의로 변경되지 않도록 강제할 수 있다.
 
-### Build: 소스 코드 복사 후 빌드한다
+### 소스 코드 복사 & 빌드
 
 루비의 경우 별도의 컴파일이 필요하지 않으므로, 소스코드를 복사하는 것만으로 실행 준비가 끝난다.
 
@@ -100,7 +101,7 @@ COPY . .
 
 도커 이미지는 디렉티브마다 레이어를 만들고 빌드 할 때 이 레이어 단위로 캐시한다. 캐시 여부에 따라 빌드 시간이 대폭 차이나므로 레이어를 잘 나누어야 한다. 소스코드가 변경될 때 마다 패키지 설치부터 다시하면 매우 비효율적이기 때문에 `RUN` 디렉티브를 나누어주고 **변경이 적은 것부터 잦은 것 순 으로 배치**한다.
 
-### Run: 실행 커맨드를 지정한다
+### 실행 커맨드 지정
 
 ```dockerfile
 EXPOSE 3000
@@ -111,7 +112,7 @@ CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
 
 `CMD` 디렉티브를 통해 컨테이너 커맨드를 지정하는데 데몬 형태가 아니라 **반드시 Foreground로 실행되는 커맨드여야 한다.**
 
-### 추가: 볼륨 설정
+### 볼륨 설정
 
 도커 볼륨을 마운트해서 사용하게 될 데이터 경로들을 `VOLUME` 디렉티브로 명시한다.
 
@@ -194,7 +195,7 @@ Docker와의 [연계를 위해서 stdout으로 로깅](https://12factor.net/logs
 
 ### File Storage 설정
 
-ActiveStorage 설정은 `config/storage.yml`에서 변경할 수 있는데 로컬 스토리지를 사용하는 경우는 변경할 부분이 특별히 없다. `storage/` 경로에 Docker Volume을 마운트해서 사용할 것이다.
+ActiveStorage 설정은 `config/storage.yml`에서 변경할 수 있는데 로컬 스토리지를 사용하는 경우는 변경할 부분이 특별히 없다. `storage/` 경로에 도커 볼륨을 마운트해서 사용할 것이다.
 
 ## 이미지 빌드 & 컨테이너 실행
 
@@ -463,7 +464,7 @@ server {
 
 나는 일반적인 nginx 설정을 이미지에 직접 추가해주었고 프로젝트의 git 레파지토리에서 함께 관리하도록 하였는데, 이보다 더 복잡한 설정 파일 관리가 필요한 경우 설정 파일 경로(`/etc/nginx/conf.d`) 전체를 볼륨으로 관리해줄 수도 있다.
 
-## docker-compose 커맨드로 서비스 관리하기
+## docker-compose 커맨드로 서비스 관리
 
 이렇게 구성을 전부 정의해놓고 나면 커맨드를 사용해서 전체 서비스를 쉽게 관리할 수 있다.
 
