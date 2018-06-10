@@ -53,12 +53,13 @@ RUN apk add --no-cache --update \
     tzdata \
     mariadb-dev \
     nodejs \
-    yarn 
-    
+    yarn
+
 RUN gem install bundler
 ```
 
-이 패키지들이 레일즈 애플리케이션을 구동하는 데 필요한 최소한의 패키지들이다
+이 패키지들이 레일즈 애플리케이션을 구동하는 데 필요한 최소한의 패키지들이다.
+
 ### 버전 잠금(Lock)
 
 도커 컨테이너는 언제 몇 번을 빌드하고 실행하던 선언된 동작이 동일하게 수행되도록 불변성과 멱등성을 보장해야한다. 
