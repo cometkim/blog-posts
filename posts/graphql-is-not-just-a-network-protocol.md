@@ -425,6 +425,16 @@ GraphQL과 타입언어를 같이 사용하는 코드베이스에서 더블 타�
 
 이걸 사용하면 쉽게 GraphQL 기반의 마이크로 서비스 아키텍처를 달성할 수 있습니다. 각 컴포넌트 서비스에서 GraphQL 스키마를 노출하고 게이트웨이에서 숨기거나, 확장하거나, 통합하거나를 직관적으로 표현이 가능합니다.
 
+### GatsbyJS
+
+제가 이 블로그를 만들 때 사용한 [GatsbyJS](https://gatsbyjs.org)라는 프레임워크도 GraphQL을 아주 창의적으로 사용합니다.
+
+일단 Gatsby가 [Relay 컴파일러 아키텍처](https://relay.dev/docs/en/compiler-architecture.html)를 사용해서 빌드타임에 사용할 스키마를 생성합니다.
+
+Gatsby의 플러그인 시스템은 이 빌드 타임에 생성되는 데이터 노드들을 확장하고, 변환하는 역할을 수행하며, 이를 말단 노드에서 작성한 리액트 컴포넌트에서 Gatsby GraphQL로 의존하면, Gastsby가 이 코드를 컴파일타임에 추출하고 분석해서 알맞는 데이터를 주입합니다.
+
+[사용법에 대한 문서](https://www.gatsbyjs.org/docs/querying-with-graphql/) 말고도 [내부 동작에 대한 문서](https://www.gatsbyjs.org/docs/gatsby-internals/)를 보시면 정말 재밌습니다.
+
 ### 조금 특이한 케이스들
 
 - [apollo-link-rest](https://github.com/apollographql/apollo-link-rest): 예제에서 사용했던, REST API를 GraphQL 쿼리로 호출하기 위한 링크입니다.
