@@ -14,7 +14,7 @@ tags:
 
 기여하던 [gatsby-plugin-linaria](https://github.com/cometkim/gatsby-plugin-linaria) 프로젝트의 소유권을 최근에 이전 받았습니다.
 
-원 저자인 [Matija Marohnić](https://github.com/silvenon) 가 더 이상 플러그인을 사용하지 않고 다른 기술 스택을 사용하고 있으며, 제가 중간에 대부분의 코드를 새로 작성하면서 이해도 차이가 생기게 되었는데 Matija 가 이 부분을 언급하면서 제가 소유권을 넘겼습니다.
+원 저자인 [Matija Marohnić](https://github.com/silvenon) 가 더 이상 플러그인을 사용하지 않고 다른 기술 스택을 사용하고 있으며, 제가 중간에 대부분의 코드를 새로 작성하면서 이해도 차이가 생기게 되었는데 Matija 가 이 부분을 언급하면서 제게 소유권을 넘겼습니다.
 
 저는 이 프로젝트에 기여하면서 CSS Extraction을 통한 [Critical rendering path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path) 최적화 기법과 이에 따른 trade-off 에 대한 이해도가 높아졌는데 글을 통해 이 부분을 공유해보고자 합니다.
 
@@ -174,10 +174,10 @@ Critical CSS에는 다른 페이지의 스타일시트처럼 사용되지 않는
 제일 쉬운 구현은 `other` 텍스트를 모두 파일로 저장해서 사용하는 것 입니다. 당시 진행하던 프로젝트에서 성능 측정을 해보았는데 여러모로 좋지 않은 구현 같았습니다.
 
 - 대부분의 페이지에서 other가 critical 보다 큼
-- other 스타일 시트끼리는 내용이 거의 겹치지만, 다른 파일로 로딩됨
+- other 스타일 시트끼리는 내용이 거의 겹치지만, 매번 다른 파일로 로딩됨
 - 중복되어 분할된 스타일시트를 불러오느라 transfer size가 전체적으로 매우 커짐
 
-주요 렌더링 경로의 바이트 수는 크게 줄였지만, 전체 Transfer size는 오히려 더 커졌습니다.
+주요 렌더링 경로의 바이트 수는 조금 줄였지만, 전체 Transfer size는 큰 폭으로 커졌습니다.
 
 저는 **캐시 히트율이 제일 중요**하다고 판단하고, 전체 스타일시트를 비동기로 로딩하는 것으로 결정했습니다.
 
