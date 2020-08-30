@@ -276,8 +276,10 @@ type TupleMapPromise<Tuple extends readonly unknown[], Result extends readonly u
   >,
 }[Tuple['length'] extends 0 ? 'finish' : 'step'];
 
+type t = [1, null, string, undefined];
+
 // $ExpectType [Promise<1>, Promise<null>, Promise<string>, Promise<undefined>]
-type r0 = TupleMapPromise<[1, null, string, undefined]>;
+type r0 = TupleMapPromise<t>;
 ```
 
 가능은 한데, Flow의 `$Call`과 같이 Type-leve application 구현이 가능한 수준은 아니라서 필요할 때마다 이런 재귀 타입을 작성해줘야 하는 것이 여전히 걸립니다.
@@ -334,10 +336,10 @@ type TupleMapUnwrap<
 }[Tuple['length'] extends 0 ? 'finish' : 'step'];
 
 // $ExpectType [Promise<1>, Promise<null>, Promise<string>, Promise<undefined>]
-type r1 = TupleMapWrap<[1, null, string, undefined], Promise<any>>;
+type r1 = TupleMapWrap<t, Promise<any>>;
 
 // $ExpectType [1, null, string, undefined]
-type r2 = TupleMapUnwrap<[1, null, string, undefined]>;
+type r2 = TupleMapUnwrap<r1>;
 ```
 
 뭐 이 정도면 현업에서 쓰긴 충분한 것 같아요 (아마....?)
