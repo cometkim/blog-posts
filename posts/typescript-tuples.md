@@ -259,7 +259,7 @@ Variadic tuple에 대한 구체적인 설명과 유즈케이스들은 [이를 �
 
 Flow 쓰다가 TypeScript로 넘어오고나서 익숙해지는 동안 불편한 것들이 좀 많았는데, 그 중에서도 [`$TupleMap`](https://flow.org/en/docs/types/utilities/#toc-tuplemap)의 부재가 컸습니다.
 
-https://twitter.com/KrComet/status/1030466278824136705
+<blockquote class="twitter-tweet"><p lang="ko" dir="ltr">드디어 Flow로 하는 것 중 TypeScript에서 안되는 거 찾았다. TupleMap 대안이 없어서 튜플 엔트리마다 제네릭 타입 씌우는 게 안되네</p>&mdash; Hyeseong Kim (@KrComet) <a href="https://twitter.com/KrComet/status/1030466278824136705?ref_src=twsrc%5Etfw">August 17, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 ($TupleMap 기능은 [이전 포스트](/posts/flow-type-level-func/#objmap-tuplemap)에서도 간단히 소개한 적 있습니다.)
 
