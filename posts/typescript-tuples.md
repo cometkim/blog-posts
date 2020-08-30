@@ -320,7 +320,7 @@ type TupleMapWrap<
   step: TupleMapWrap<
     DropFirst<Tuple>,
     Box,
-    Append<Result, Wrap<Tuple[0]>>
+    Append<Result, Wrap<Tuple[0], Box>>
   >,
 }[Tuple['length'] extends 0 ? 'finish' : 'step'];
 
