@@ -20,7 +20,7 @@ tags:
 
 그래서 워드프레스를 주제로 얘기할 때는 굉장히 주의를 기울여야 합니다. 상대방과 내가 인식하는 워드프레스가 같은 워드프레스인지 두 세 번 확인을 거쳐야 안심하고 얘기할 수 있습니다.
 
-![왼쪽은 구 WordPress.org 홈 화면 스크린샷, 오른쪽은 WordPress.com의 구텐베르크 에디터 스크린샷](wordpress-org-to-com-migration/wordpress-old-new.png)
+![왼쪽은 구 WordPress.org 홈 화면 스크린샷, 오른쪽은 WordPress.com의 구텐베르크 에디터 스크린샷](images/wordpress-old-new.png)
 
 (어느 쪽 화면이 더 익숙하신가요?)
 
