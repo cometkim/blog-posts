@@ -1,7 +1,7 @@
 ---
 title: 워드프레스 닷컴 마이그레이션
 author: Hyeseong Kim
-date: 2020-03-28
+date: 2021-03-28
 tags:
   - wordpress
 ---
