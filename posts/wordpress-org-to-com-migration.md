@@ -24,7 +24,7 @@ tags:
 
 (어느 쪽 화면이 더 익숙하신가요?)
 
-가령 저는 저렴한 가격의 워드프레스 닷컴에서 구텐베르크 에디터로 컨텐츠를 관리하고 [WPGraphQL](https://www.wpgraphql.com/) 플러그인과 [GitHub Actions](https://github.com/features/actions) 을 통해 [Jamstack](https://jamstack.org/) 프론트엔드에 통합해서 쓰는 Headless CMS 유즈케이스를 얘기하고 있는 동안 상대방은 컨택트 폼 플러그인 깔고 HTML 퍼블리하고 PHP 테마 코드 커스터마이징하는 얘기 하고 있을 수도 있거든요.
+가령 저는 저렴한 가격의 워드프레스 닷컴에서 구텐베르크 에디터로 컨텐츠를 관리하고 [WPGraphQL](https://www.wpgraphql.com/) 플러그인과 [GitHub Actions](https://github.com/features/actions) 을 통해 [Jamstack](https://jamstack.org/) 프론트엔드에 통합해서 쓰는 Headless CMS 유즈케이스를 얘기하고 있는 동안 상대방은 컨택트 폼 플러그인 깔고 HTML 퍼블리싱하고 PHP 테마 코드 커스터마이징하는 얘기 하고 있을 수도 있거든요.
 
 이미 오랫동안 워드프레스 셀프호스팅을 유지하고 있는 사용자가 어떤 유형의 사용자인지 알려면 설치된 플러그인 목록을 보는게 빠를 것 같습니다.
 
