@@ -102,9 +102,11 @@ tags:
 
 아무튼 나는 기술을 큰 그림에서 보고 전략적으로 선택하는데는 능한 사람이였고, 내가 이미 활용하던 기술도 다시보는 계기들을 만들면서 성장하게 된 것 같다. 그게 React던 Gatsby던 GraphQL이던 Figma던 뭐던 원래 다소 얕게 알고 넘어가던 많은 것들이 이면의 전략과 현실의 워크플로우의 이해와 맞물리면서 더 명확해졌다. 이 때부터 트위터에서 내비치는 내 의견들은 다소 강하고 일관성있게 자리 잡았고 덕분에 팔로워가 지속적으로 늘기 시작했다.
 
-대외적인 인지도가 조금 생겨서인지 FEConf 에서 한 세션 잡을 기회도 생겼다. ([최신 슬라이드](https://statecharts-in-webdev.netlify.app/))
+대외적인 인지도가 조금 생겨서인지 FEConf 에서 한 세션 잡을 기회도 생겼다.
 
-https://youtu.be/Hv_PhrfwerQ
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Hv_PhrfwerQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+([최신 슬라이드](https://statecharts-in-webdev.netlify.app/))
 
 발표에서 나의 문제 접근방식과 생각이 드러났던 것 같다. Statecharts라는 도구를 소개하는 건 명분이고 단순히 문제를 바텀업으로 해결하는 걸 벗어나 문제영역을 정의하고 그 (모델링) 과정에 사람들을 참여시키는 것을 발표의 핵심으로 다뤘는데 썩 잘 전달하진 못한 것 같다.
 
@@ -136,7 +138,7 @@ https://youtu.be/Hv_PhrfwerQ
 
 그 때 유튜브에서 본 TBWA라는 광고회사의 Manifesto가 나한테 가장 큰 영향을 미쳤다.
 
-https://youtu.be/hKx0IDRNfhQ
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hKx0IDRNfhQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 >  **"Do the brave thing"**
 
