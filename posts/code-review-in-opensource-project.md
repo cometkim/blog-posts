@@ -51,3 +51,7 @@ tags:
 코드 작성자와 리뷰어의 역할을 나누지 마세요. 코드 작성자는 당연히 1차적으로 리뷰어이며, 리뷰어는 반드시 작성된 코드에 대해 모두 이해해야 합니다. 코드리뷰 당사자는 모두 해당 코드 메인테이너라는 관점에서 역할이 같습니다.
 
 프로젝트 기여과정에서 코드리뷰 참여는 성장에 도움이 됩니다만, 성장을 위한 도구가 아닙니다. 메인테이너 관점에서 생각하세요. 일방적으로 당신의 코드를 떠넘기지 마세요. 코드에 대한 책임을 지세요. (오래 지속되는 프로젝트에 참여한적이 있다면, 코드를 더하는게 능사가 아닌 건 알고 있을 겁니다)
+
+<blockquote class="twitter-tweet"><p lang="ko" dir="ltr">&quot;나랑 계약해서 오픈소스 컨트리뷰터가 되지 않을래?&quot;<br><br>&quot;컨트리뷰터들은 결국 모두 메인테이너가 되는거야? 어째서 미리 얘기해주지 않은거야&quot;<br><br>&quot;어째서냐니, 물어보지 않았잖아?&quot;</p>&mdash; Hyeseong Kim (@KrComet) <a href="https://twitter.com/KrComet/status/1502128826230652930?ref_src=twsrc%5Etfw">March 11, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+메인테이너와 관점이 일치하게되면, PR은 쉽게 병합됩니다. 어쩌면 당신이 다음 메인테이너가 될지도 몰라요 :)
