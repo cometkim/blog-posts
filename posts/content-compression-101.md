@@ -288,7 +288,7 @@ RocksDB 같은 스토리지, Kafka와 같은 메시지 브로커도 시스템의
 
 Zstandard는 직접 입력한 데이터를 바탕으로 정적 사전을 생성하는 기능을 제공하고 있어, 실제 프로덕션 데이터를 학습시켜서 압축 효율을 크게 개선할 수 있습니다. LZ4도 Zstandard로 생성한 사전을 그대로 사용하는 기능을 제공합니다. 따라서 Zstandard나 LZ4를 사용하는 서버/클라이언트는 미리 학습한 "공유 사전"을 탑재하는 것을 고려해보면 좋습니다.
 
-웹 플랫폼에 Zstandard 지원이 추가됨에 따라 공유 사전을 HTTP를 통해 교환할 수 있는 [Compression Dictionary Transport](https://datatracker.ietf.org/doc/draft-meenan-httpbis-compression-dictionary/) 표준이 실험 단계에 있습니다.
+웹 플랫폼에 Zstandard 지원이 추가됨에 따라 공유 사전을 HTTP를 통해 교환할 수 있는 [Compression Dictionary Transport](https://datatracker.ietf.org/doc/draft-ietf-httpbis-compression-dictionary/) 표준이 실험 단계에 있습니다.
 
 ### 보안 고려사항
 
